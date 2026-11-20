@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>אזור המשחקים</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: white;
+      background: #101326;
+      min-height: 100vh;
+    }
+    header {
+      padding: 25px 7%;
+      background: #191e3b;
+      border-bottom: 2px solid #343c70;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 { margin: 0; color: #75d7ff; font-size: 28px; }
+    .hero {
+      text-align: center;
+      padding: 75px 20px 55px;
+      background: linear-gradient(135deg, #202b59, #43246b);
+    }
+    .hero h2 { font-size: 42px; margin: 0 0 15px; }
+    .hero p { font-size: 19px; color: #d7ddff; }
+    main { max-width: 1000px; margin: auto; padding: 35px 20px; }
+    .games {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .game {
+      background: #202747;
+      border: 1px solid #3b4779;
+      border-radius: 16px;
+      padding: 25px;
+      text-align: center;
+    }
+    .game .emoji { font-size: 48px; }
+    .game h3 { color: #75d7ff; }
+    .game p { color: #c4cbe5; }
+    .soon {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #39466f;
+      border-radius: 9px;
+      color: white;
+    }
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #9da8ce;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎮 אזור המשחקים</h1>
+    <span>עולם של משחקים והנאה</span>
+  </header>
+
+  <section class="hero">
+    <h2>ברוכים הבאים לאזור המשחקים!</h2>
+    <p>כל המשחקים האהובים עליכם במקום אחד.</p>
+  </section>
+
+  <main>
+    <h2>🕹️ המשחקים שלנו</h2>
+    <div class="games">
+      <div class="game">
+        <div class="emoji">🎯</div>
+        <h3>משחקי חשיבה</h3>
+        <p>אתגרו את המחשבה וחדדו את הראש.</p>
+        <span class="soon">בקרוב</span>
+      </div>
+
+      <div class="game">
+        <div class="emoji">🏎️</div>
+        <h3>משחקי מרוצים</h3>
+        <p>צאו לדרך והגיעו ראשונים!</p>
+        <span class="soon">בקרוב</span>
+      </div>
+
+      <div class="game">
+        <div class="emoji">🧩</div>
+        <h3>משחקי הרפתקאות</h3>
+        <p>גלו עולמות חדשים והתחילו לשחק.</p>
+        <span class="soon">בקרוב</span>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © אזור המשחקים | האתר הרשמי
+  </footer>
+</body>
+</html>

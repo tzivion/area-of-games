@@ -233,13 +233,12 @@
       const actions = document.createElement("div");
       actions.className = "game-actions";
 
-      const play = document.createElement("button");
-      play.textContent = "🎮 משחק עכשיו";
-      play.addEventListener("click", () => {
-  const url = getGameUrl(game);
-  if (url) window.open(url, "_blank", "noopener,noreferrer");
-});
-
+     const play = document.createElement("a");
+play.textContent = "🎮 משחק עכשיו";
+play.className = "button";
+play.href = getGameUrl(game) || "#";
+play.target = "_blank";
+play.rel = "noopener noreferrer";
       actions.appendChild(play);
 
       if (currentSession) {

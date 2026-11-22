@@ -235,7 +235,10 @@
 
       const play = document.createElement("button");
       play.textContent = "🎮 משחק עכשיו";
-      play.addEventListener("click", () => openGame(game));
+      play.addEventListener("click", () => {
+  const url = getGameUrl(game);
+  if (url) window.open(url, "_blank", "noopener,noreferrer");
+});
 
       actions.appendChild(play);
 

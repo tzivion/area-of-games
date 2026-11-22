@@ -1,104 +1,113 @@
+
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>אזור המשחקים</title>
+  <title>אזור המשחקים 🎮</title>
   <style>
     * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: Arial, sans-serif;
+      background: #101525;
       color: white;
-      background: #101326;
-      min-height: 100vh;
     }
     header {
-      padding: 25px 7%;
-      background: #191e3b;
-      border-bottom: 2px solid #343c70;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header h1 { margin: 0; color: #75d7ff; font-size: 28px; }
-    .hero {
       text-align: center;
-      padding: 75px 20px 55px;
-      background: linear-gradient(135deg, #202b59, #43246b);
+      padding: 38px 16px;
+      background: linear-gradient(135deg, #182c55, #492c78);
     }
-    .hero h2 { font-size: 42px; margin: 0 0 15px; }
-    .hero p { font-size: 19px; color: #d7ddff; }
-    main { max-width: 1000px; margin: auto; padding: 35px 20px; }
+    header h1 { font-size: 42px; margin: 0 0 12px; }
+    header p { color: #d8d9f5; font-size: 18px; }
+    main { max-width: 1150px; margin: auto; padding: 25px 18px; }
+    .section-title { font-size: 25px; margin: 12px 0 20px; }
     .games {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 22px;
     }
-    .game {
-      background: #202747;
-      border: 1px solid #3b4779;
-      border-radius: 16px;
-      padding: 25px;
-      text-align: center;
+    .card {
+      background: #202b43;
+      border: 1px solid #344361;
+      border-radius: 17px;
+      overflow: hidden;
+      box-shadow: 0 8px 22px #0005;
     }
-    .game .emoji { font-size: 48px; }
-    .game h3 { color: #75d7ff; }
-    .game p { color: #c4cbe5; }
-    .soon {
+    .cover {
+      width: 100%;
+      height: 175px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #2866a5, #8046a8);
+      display: block;
+    }
+    .card-content { padding: 17px; }
+    .card h3 { margin: 0 0 15px; font-size: 21px; }
+    .actions { display: flex; gap: 9px; flex-wrap: wrap; }
+    a {
       display: inline-block;
-      margin-top: 10px;
-      padding: 10px 20px;
-      background: #39466f;
-      border-radius: 9px;
+      text-decoration: none;
+      background: #6552d9;
       color: white;
+      padding: 11px 15px;
+      border-radius: 9px;
+      font-weight: bold;
     }
+    a:hover { background: #806ff0; }
+    .original { background: #35435f; }
     footer {
       text-align: center;
-      padding: 25px;
-      color: #9da8ce;
+      color: #9da9c4;
+      padding: 30px;
+    }
+    @media (max-width: 500px) {
+      header h1 { font-size: 32px; }
     }
   </style>
 </head>
 <body>
   <header>
     <h1>🎮 אזור המשחקים</h1>
-    <span>עולם של משחקים והנאה</span>
+    <p>עולם של משחקים, אתגרים והרפתקאות!</p>
   </header>
 
-  <section class="hero">
-    <h2>ברוכים הבאים לאזור המשחקים!</h2>
-    <p>כל המשחקים האהובים עליכם במקום אחד.</p>
-  </section>
-
   <main>
-    <h2>🕹️ המשחקים שלנו</h2>
+    <h2 class="section-title">🕹️ המשחקים שלנו</h2>
     <div class="games">
-      <div class="game">
-        <div class="emoji">🎯</div>
-        <h3>משחקי חשיבה</h3>
-        <p>אתגרו את המחשבה וחדדו את הראש.</p>
-        <span class="soon">בקרוב</span>
-      </div>
 
-      <div class="game">
-        <div class="emoji">🏎️</div>
-        <h3>משחקי מרוצים</h3>
-        <p>צאו לדרך והגיעו ראשונים!</p>
-        <span class="soon">בקרוב</span>
-      </div>
+      <article class="card">
+        <img class="cover"
+          src="https://placehold.co/600x350/24518a/ffffff?text=Thinking+Games"
+          alt="משחקי חשיבה">
+        <div class="card-content">
+          <h3>🧠 משחקי חשיבה</h3>
+          <p>משחקים שמאתגרים את המחשבה</p>
+        </div>
+      </article>
 
-      <div class="game">
-        <div class="emoji">🧩</div>
-        <h3>משחקי הרפתקאות</h3>
-        <p>גלו עולמות חדשים והתחילו לשחק.</p>
-        <span class="soon">בקרוב</span>
-      </div>
+      <article class="card">
+        <img class="cover"
+          src="https://placehold.co/600x350/853d65/ffffff?text=Racing"
+          alt="משחקי מרוצים">
+        <div class="card-content">
+          <h3>🏎️ משחקי מרוצים</h3>
+          <p>מהירות, תחרות ואקשן</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="cover"
+          src="https://placehold.co/600x350/28765c/ffffff?text=Adventure"
+          alt="משחקי הרפתקאות">
+        <div class="card-content">
+          <h3>🗺️ משחקי הרפתקאות</h3>
+          <p>יוצאים לגלות עולמות חדשים</p>
+        </div>
+      </article>
+
     </div>
   </main>
 
-  <footer>
-    © אזור המשחקים | האתר הרשמי
-  </footer>
+  <footer>אזור המשחקים © כל הזכויות שמורות</footer>
 </body>
 </html>

@@ -4,110 +4,419 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>אזור המשחקים 🎮</title>
+  <title>🎮 אזור המשחקים</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #101525;
+      background: #101827;
       color: white;
     }
     header {
       text-align: center;
-      padding: 38px 16px;
-      background: linear-gradient(135deg, #182c55, #492c78);
+      padding: 30px 15px;
+      background: #17243a;
     }
-    header h1 { font-size: 42px; margin: 0 0 12px; }
-    header p { color: #d8d9f5; font-size: 18px; }
-    main { max-width: 1150px; margin: auto; padding: 25px 18px; }
-    .section-title { font-size: 25px; margin: 12px 0 20px; }
+    h1 { margin: 0 0 10px; font-size: 36px; }
+    header p { color: #cbd5e1; }
+    main { max-width: 1100px; margin: auto; padding: 24px 16px; }
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 22px;
+    }
+    button, .button {
+      border: 0;
+      border-radius: 9px;
+      padding: 12px 18px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      display: inline-block;
+    }
+    button:hover, .button:hover { background: #1d4ed8; }
+    .secondary { background: #475569; }
+    .danger { background: #b91c1c; }
     .games {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 22px;
     }
-    .card {
-      background: #202b43;
-      border: 1px solid #344361;
-      border-radius: 17px;
+    .game-card {
+      background: #1e293b;
+      border-radius: 15px;
       overflow: hidden;
-      box-shadow: 0 8px 22px #0005;
+      box-shadow: 0 5px 18px #0005;
     }
-    .cover {
+    .game-card img {
       width: 100%;
-      height: 175px;
+      height: 190px;
       object-fit: cover;
-      background: linear-gradient(135deg, #2866a5, #8046a8);
-      display: block;
+      background: #334155;
     }
-    .card-content { padding: 17px; }
-    .card h3 { margin: 0 0 15px; font-size: 21px; }
-    .actions { display: flex; gap: 9px; flex-wrap: wrap; }
-    a {
-      display: inline-block;
-      text-decoration: none;
-      background: #6552d9;
-      color: white;
-      padding: 11px 15px;
-      border-radius: 9px;
-      font-weight: bold;
+    .game-info { padding: 17px; }
+    .game-info h2 { margin: 0 0 10px; }
+    .game-info p { color: #cbd5e1; min-height: 22px; }
+    .game-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .panel {
+      background: #1e293b;
+      border-radius: 14px;
+      padding: 20px;
+      margin: 20px 0;
     }
-    a:hover { background: #806ff0; }
-    .original { background: #35435f; }
-    footer {
-      text-align: center;
-      color: #9da9c4;
-      padding: 30px;
+    .panel h2 { margin-top: 0; }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 7px 0 14px;
+      border: 1px solid #64748b;
+      border-radius: 8px;
+      font-size: 16px;
+      background: #f8fafc;
+      color: #111827;
     }
-    @media (max-width: 500px) {
-      header h1 { font-size: 32px; }
+    label { display: block; margin-top: 8px; }
+    .hidden { display: none; }
+    #message { text-align: center; margin: 15px 0; color: #fde68a; }
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: #000e;
+      z-index: 10;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
+    .modal iframe {
+      width: 100%;
+      flex: 1;
+      border: 0;
+      border-radius: 10px;
+      background: white;
+    }
+    .modal-top { display: flex; justify-content: space-between; gap: 10px; }
+    footer { text-align: center; color: #94a3b8; padding: 25px; }
   </style>
 </head>
 <body>
-  <header>
-    <h1>🎮 אזור המשחקים</h1>
-    <p>עולם של משחקים, אתגרים והרפתקאות!</p>
-  </header>
 
-  <main>
-    <h2 class="section-title">🕹️ המשחקים שלנו</h2>
-    <div class="games">
+<header>
+  <h1>🎮 אזור המשחקים</h1>
+  <p>המקום שבו כל המשחקים נפגשים!</p>
+</header>
 
-      <article class="card">
-        <img class="cover"
-          src="https://placehold.co/600x350/24518a/ffffff?text=Thinking+Games"
-          alt="משחקי חשיבה">
-        <div class="card-content">
-          <h3>🧠 משחקי חשיבה</h3>
-          <p>משחקים שמאתגרים את המחשבה</p>
-        </div>
-      </article>
+<main>
+  <div class="toolbar">
+    <button id="loginButton" class="secondary">כניסת מנהל</button>
+    <button id="logoutButton" class="secondary hidden">יציאה מחשבון מנהל</button>
+  </div>
 
-      <article class="card">
-        <img class="cover"
-          src="https://placehold.co/600x350/853d65/ffffff?text=Racing"
-          alt="משחקי מרוצים">
-        <div class="card-content">
-          <h3>🏎️ משחקי מרוצים</h3>
-          <p>מהירות, תחרות ואקשן</p>
-        </div>
-      </article>
+  <section id="loginPanel" class="panel hidden">
+    <h2>🔐 כניסת מנהל</h2>
+    <label>כתובת אימייל</label>
+    <input id="email" type="email" placeholder="כתובת האימייל שלך">
+    <label>סיסמה</label>
+    <input id="password" type="password" placeholder="סיסמת המנהל">
+    <button id="signInButton">כניסה</button>
+    <button id="cancelLoginButton" class="secondary">ביטול</button>
+  </section>
 
-      <article class="card">
-        <img class="cover"
-          src="https://placehold.co/600x350/28765c/ffffff?text=Adventure"
-          alt="משחקי הרפתקאות">
-        <div class="card-content">
-          <h3>🗺️ משחקי הרפתקאות</h3>
-          <p>יוצאים לגלות עולמות חדשים</p>
-        </div>
-      </article>
+  <section id="adminPanel" class="panel hidden">
+    <h2>🛠️ ניהול המשחקים</h2>
+    <label>שם המשחק</label>
+    <input id="gameName" type="text" placeholder="לדוגמה: משחק המרוצים">
 
-    </div>
-  </main>
+    <label>תיאור קצר</label>
+    <textarea id="gameDescription" placeholder="כתבו כמה מילים על המשחק"></textarea>
 
-  <footer>אזור המשחקים © כל הזכויות שמורות</footer>
+    <label>קישור למשחק (אם המשחק נמצא באתר אחר)</label>
+    <input id="gameUrl" type="url" placeholder="https://example.com">
+
+    <label>או העלאת קובץ משחק HTML</label>
+    <input id="gameFile" type="file" accept=".html,.htm,text/html">
+
+    <label>תמונת שער למשחק (לא חובה)</label>
+    <input id="coverFile" type="file" accept="image/*">
+
+    <button id="addGameButton">הוסף משחק</button>
+  </section>
+
+  <div id="message">טוען משחקים...</div>
+  <section id="games" class="games"></section>
+</main>
+
+<div id="gameModal" class="modal hidden">
+  <div class="modal-top">
+    <strong id="modalTitle">המשחק</strong>
+    <button id="closeGameButton" class="danger">סגור ✕</button>
+  </div>
+  <iframe id="gameFrame" sandbox="allow-scripts allow-forms allow-pointer-lock" allow="fullscreen" allowfullscreen></iframe>
+  <a id="openOriginal" class="button secondary" target="_blank" rel="noopener">פתח באתר המקורי</a>
+</div>
+
+<footer>🎮 אזור המשחקים</footer>
+
+<script>
+  // פרטי החיבור לפרויקט Supabase
+  const SUPABASE_URL = "https://bbehvudbwlpignyncglp.supabase.co";
+  const SUPABASE_KEY = "דודי&דודי&דובי&דובי_PUBLISHABLE";
+
+  const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const bucket = "game-assets";
+
+  const gamesArea = document.getElementById("games");
+  const message = document.getElementById("message");
+  const loginPanel = document.getElementById("loginPanel");
+  const adminPanel = document.getElementById("adminPanel");
+  const loginButton = document.getElementById("loginButton");
+  const logoutButton = document.getElementById("logoutButton");
+
+  let currentSession = null;
+
+  function showMessage(text) {
+    message.textContent = text;
+  }
+
+  function updateAdminView() {
+    const loggedIn = !!currentSession;
+    loginButton.classList.toggle("hidden", loggedIn);
+    logoutButton.classList.toggle("hidden", !loggedIn);
+    adminPanel.classList.toggle("hidden", !loggedIn);
+    loginPanel.classList.add("hidden");
+  }
+
+  async function loadGames() {
+    showMessage("טוען משחקים...");
+    gamesArea.replaceChildren();
+
+    const { data, error } = await db
+      .from("games")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      showMessage("לא הצלחנו לטעון את המשחקים: " + error.message);
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      showMessage("עדיין לא נוספו משחקים. בקרוב הם יופיעו כאן!");
+      return;
+    }
+
+    showMessage("");
+
+    data.forEach(game => {
+      const card = document.createElement("article");
+      card.className = "game-card";
+
+      const cover = document.createElement("img");
+      cover.alt = "תמונת המשחק";
+      cover.src = game.cover_url || "https://placehold.co/600x350/1e293b/ffffff?text=Game";
+
+      const info = document.createElement("div");
+      info.className = "game-info";
+
+      const title = document.createElement("h2");
+      title.textContent = game.name;
+
+      const description = document.createElement("p");
+      description.textContent = game.description || "";
+
+      const actions = document.createElement("div");
+      actions.className = "game-actions";
+
+      const play = document.createElement("button");
+      play.textContent = "🎮 משחק עכשיו";
+      play.addEventListener("click", () => openGame(game));
+
+      actions.appendChild(play);
+
+      if (currentSession) {
+        const remove = document.createElement("button");
+        remove.textContent = "מחק משחק";
+        remove.className = "danger";
+        remove.addEventListener("click", () => deleteGame(game));
+        actions.appendChild(remove);
+      }
+
+      info.append(title, description, actions);
+      card.append(cover, info);
+      gamesArea.appendChild(card);
+    });
+  }
+
+  function getGameUrl(game) {
+    if (game.file_path) {
+      return db.storage.from(bucket).getPublicUrl(game.file_path).data.publicUrl;
+    }
+    return game.game_url;
+  }
+
+  function openGame(game) {
+    const url = getGameUrl(game);
+    if (!url) {
+      alert("לא נמצא קישור למשחק.");
+      return;
+    }
+
+    document.getElementById("modalTitle").textContent = game.name;
+    document.getElementById("gameFrame").src = url;
+    document.getElementById("openOriginal").href = url;
+    document.getElementById("gameModal").classList.remove("hidden");
+  }
+
+  function closeGame() {
+    document.getElementById("gameFrame").src = "about:blank";
+    document.getElementById("gameModal").classList.add("hidden");
+  }
+
+  document.getElementById("closeGameButton").addEventListener("click", closeGame);
+
+  loginButton.addEventListener("click", () => {
+    loginPanel.classList.remove("hidden");
+  });
+
+  document.getElementById("cancelLoginButton").addEventListener("click", () => {
+    loginPanel.classList.add("hidden");
+  });
+
+  document.getElementById("signInButton").addEventListener("click", async () => {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    const { data, error } = await db.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      alert("הכניסה נכשלה. בדקו את כתובת האימייל והסיסמה.");
+      return;
+    }
+
+    currentSession = data.session;
+    updateAdminView();
+    await loadGames();
+    document.getElementById("password").value = "";
+  });
+
+  logoutButton.addEventListener("click", async () => {
+    await db.auth.signOut();
+    currentSession = null;
+    updateAdminView();
+    await loadGames();
+  });
+
+  async function uploadFile(file, folder) {
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const path = folder + "/" + crypto.randomUUID() + "-" + safeName;
+
+    const { error } = await db.storage.from(bucket).upload(path, file);
+
+    if (error) throw error;
+
+    return db.storage.from(bucket).getPublicUrl(path).data.publicUrl;
+  }
+
+  document.getElementById("addGameButton").addEventListener("click", async () => {
+    if (!currentSession) {
+      alert("צריך להיכנס כמנהל קודם.");
+      return;
+    }
+
+    const name = document.getElementById("gameName").value.trim();
+    const description = document.getElementById("gameDescription").value.trim();
+    const gameUrl = document.getElementById("gameUrl").value.trim();
+    const gameFile = document.getElementById("gameFile").files[0];
+    const coverFile = document.getElementById("coverFile").files[0];
+
+    if (!name) {
+      alert("צריך לכתוב שם למשחק.");
+      return;
+    }
+
+    if (!gameUrl && !gameFile) {
+      alert("צריך להוסיף קישור למשחק או קובץ HTML.");
+      return;
+    }
+
+    if (gameUrl && gameFile) {
+      alert("בחרו קישור או קובץ HTML, לא את שניהם יחד.");
+      return;
+    }
+
+    const addButton = document.getElementById("addGameButton");
+    addButton.disabled = true;
+    showMessage("מעלה את המשחק...");
+
+    try {
+      let filePath = null;
+      let coverUrl = null;
+
+      if (gameFile) {
+        const uploadedUrl = await uploadFile(gameFile, "games");
+        filePath = uploadedUrl.split("/game-assets/")[1];
+      }
+
+      if (coverFile) {
+        coverUrl = await uploadFile(coverFile, "covers");
+      }
+
+      const { error } = await db.from("games").insert([{
+        name,
+        description,
+        game_url: gameUrl || null,
+        file_path: filePath,
+        cover_url: coverUrl
+      }]);
+
+      if (error) throw error;
+
+      document.getElementById("gameName").value = "";
+      document.getElementById("gameDescription").value = "";
+      document.getElementById("gameUrl").value = "";
+      document.getElementById("gameFile").value = "";
+      document.getElementById("coverFile").value = "";
+
+      showMessage("המשחק נוסף בהצלחה!");
+      await loadGames();
+    } catch (error) {
+      showMessage("לא הצלחנו להוסיף את המשחק: " + error.message);
+    } finally {
+      addButton.disabled = false;
+    }
+  });
+
+  async function deleteGame(game) {
+    if (!confirm("למחוק את המשחק " + game.name + "?")) return;
+
+    const { error } = await db.from("games").delete().eq("id", game.id);
+
+    if (error) {
+      alert("לא הצלחנו למחוק את המשחק: " + error.message);
+      return;
+    }
+
+    await loadGames();
+  }
+
+  db.auth.getSession().then(({ data }) => {
+    currentSession = data.session;
+    updateAdminView();
+    loadGames();
+  });
+
+  db.auth.onAuthStateChange((_event, session) => {
+    currentSession = session;
+    updateAdminView();
+    loadGames();
+  });
+</script>
+
 </body>
 </html>

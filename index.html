@@ -314,17 +314,23 @@ play.rel = "noopener noreferrer";
     await loadGames();
   });
 
-  async function uploadFile(file, folder) {
+ async function uploadFile(file, folder) {
     const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
     const path = folder + "/" + crypto.randomUUID() + "-" + safeName;
 
-    const { error } = await db.storage.from(bucket).upload(path, file);
+    const contentType = file.name.toLowerCase().endsWith(".html")
+      ? "text/html"
+      : file.type || "application/octet-stream";
+
+    const { error } = await db.storage.from(bucket).upload(path, file, {
+      contentType: contentType,
+      upsert: false
+    });
 
     if (error) throw error;
 
     return db.storage.from(bucket).getPublicUrl(path).data.publicUrl;
   }
-
   document.getElementById("addGameButton").addEventListener("click", async () => {
     if (!currentSession) {
       alert("צריך להיכנס כמנהל קודם.");
